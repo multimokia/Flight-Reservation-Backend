@@ -19,10 +19,15 @@ namespace Project_Backend
             Console.Write("Please enter a flight id to delete:");
             id = Convert.ToInt32(Console.ReadLine());
 
-            if (_airlineCoordinator.DeleteFlight(id))
-                { Console.WriteLine("Flight with id {0} deleted..", id); }
-            else
-                { Console.WriteLine("Flight with id {0} was not found..", id); }
+            try
+                { _airlineCoordinator.DeleteFlight(id); }
+
+            //Catches specialized exceptions and reports their messages to the user
+            catch (Exception ex) when (
+                ex is FlightNotFoundException
+                || ex is InvalidOperationException
+            )
+                { Console.WriteLine(ex.Message); }
 
             Console.WriteLine("\nPress any key to continue return to the main menu.");
             Console.ReadKey();
