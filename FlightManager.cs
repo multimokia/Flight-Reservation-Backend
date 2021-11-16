@@ -1,68 +1,60 @@
+using System;
+using System.Collections.Generic;
 
 class FlightManager
 {
-    private int maxFlights;
-    private int numFlights;
-    private Flight[] flightList;
+    private int _maxFlights;
+    private Dictionary<int, Flight> _flights;
 
     public FlightManager(int max)
     {
-        maxFlights = max;
-        numFlights = 0;
-        flightList = new Flight[maxFlights];
+        _maxFlights = max;
+        _flights = new Dictionary<int, Flight>();
     }
 
-    public bool addFlight(int fn, string origin, string destination,int maxSeats)
+    public bool AddFlight(int flightNumber, int maxSeats, string origin, string destination)
     {
-        if (numFlights >= maxFlights)
+        //If we already have this flight, don't try to add again
+        if (_flights.Count >= _maxFlights || HasFlight(flightNumber))
             { return false; }
 
-        Flight f = new Flight(fn, origin,destination,maxSeats);
-        flightList[numFlights] = f;
-        numFlights++;
+        Flight flight = new Flight(flightNumber, maxSeats, origin, destination);
+        _flights.Add(flightNumber, flight);
         return true;
     }
 
-    public int findFlight(int fid)
+    public bool HasFlight(int flightNumber)
     {
-        for (int x = 0; x < numFlights; x++)
-        {
-            if (flightList[x].getFlightNumber() == fid)
-                return x;
-        }
-        return -1;
+        return _flights.ContainsKey(flightNumber);
     }
 
-    public bool flightExists(int fid)
+    public Flight? GetFlight(int flightNumber)
     {
-        int loc = findFlight(fid);
-        if (loc == -1) { return false; }
-        return true;
+        Flight flight = null;
+        _flights.TryGetValue(flightNumber, out flight);
+        return flight;
     }
 
-    public Flight getFlight(int fid)
+    public bool DeleteFlight(int flightNumber)
     {
-        int loc = findFlight(fid);
-        if (loc == -1) { return null; }
-        return flightList[loc];
-    }
+        //Flights can only be deleted if they have no passengers
+        Flight flight = GetFlight(flightNumber);
 
-    public bool deleteFlight(int fid)
-    {
-        int loc = findFlight(fid);
-        if (loc == -1) { return false; }
-        flightList[loc] = flightList[numFlights-1];
-        numFlights--;
-        return true;
+        if (flight == null)
+            { throw new FlightNotFoundException(flightNumber); }
+
+        if (flight.getNumPassengers() > 0)
+            { throw new InvalidOperationException("Flights may only be deleted if they have no passengers booked."); }
+
+        //If checks pass, remove the flight and return status
+        return _flights.Remove(flightNumber);
     }
 
     public string getFlightList()
     {
-        string s = "Flight List:";
-        for (int x = 0; x < numFlights; x++)
-        {
-            s = s + "\n" + flightList[x].getFlightNumber() + " from " + flightList[x].getOrigin() + " to " + flightList[x].getDestination();
-        }
-        return s;
+        string rv = "Flight List:";
+        foreach (KeyValuePair<int, Flight> flight in _flights)
+            { rv += $"\n\t{flight.Key} from {flight.Value.OriginAirport} to {flight.Value.DestinationAirport}"; }
+        return rv;
     }
 }

@@ -1,25 +1,25 @@
 class AirlineCoordinator
 {
-    FlightManager flManager;
-    CustomerManager custManager;
+    FlightManager _flightManager;
+    CustomerManager _customerManager;
 
-    public AirlineCoordinator(int custIdSeed, int maxCust,int maxFlights)
+    public AirlineCoordinator(int custIdSeed, int maxCust, int maxFlights)
     {
-        flManager = new FlightManager(maxFlights);
+        _flightManager = new FlightManager(maxFlights);
     }
 
-    public bool addFlight(int flightNo,string origin,string destination, int maxSeats)
+    public bool addFlight(int flightNumber, int maxSeats, string origin, string destination)
     {
-        return flManager.addFlight(flightNo, origin, destination, maxSeats);
+        return _flightManager.AddFlight(flightNumber, maxSeats, origin, destination);
     }
 
     public string flightList()
     {
-        return flManager.getFlightList();
+        return _flightManager.getFlightList();
     }
 
     public bool deleteFlight(int fid)
     {
-        return flManager.deleteFlight(fid);
+        return _flightManager.DeleteFlight(fid);
     }
 }

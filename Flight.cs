@@ -1,73 +1,121 @@
+using System.Collections.Generic;
+
 class Flight
 {
-    private int flightNumber;
-    private string origin;
-    private string destination;
-    private int maxSeats;
-    private int numPassengers;
-    private Customer[] passengers;
+    /// <summary>
+    /// The flight number
+    /// </summary>
+    private int _flightNumber;
+    public int FlightNumber {get { return _flightNumber; }}
 
-    public Flight(int fn,string or,string dest,int mSeats)
+
+    /// <summary>
+    /// The origin airport of the flight.
+    /// </summary>
+    private string _originAirport;
+    public string OriginAirport {get { return _originAirport; }}
+
+    /// <summary>
+    /// The destination airport of the flight.
+    /// </summary>
+    private string _destinationAirport;
+    public string DestinationAirport {get { return _destinationAirport; }}
+
+    /// <summary>
+    /// The maximum number of passengers that can be on the flight.
+    /// </summary>
+    private int _maxPassengers;
+    public int MaxSeats {get { return _maxPassengers; }}
+
+    /// <summary>
+    /// Map of passenger id -> passenger
+    /// </summary>
+    private Dictionary<string, Customer> _passengers;
+
+    public Flight(int flightNumber, int maxSeats, string origin, string destination)
     {
-        maxSeats = mSeats;
-        flightNumber = fn;
-        origin = or;
-        destination = dest;
-        numPassengers = 0;
-        passengers = new Customer[maxSeats];
+        this._flightNumber = flightNumber;
+        this._maxPassengers = maxSeats;
+        this._originAirport = origin;
+        this._destinationAirport = destination;
+        this._passengers = new Dictionary<string, Customer>();
     }
 
-    public int getFlightNumber() { return flightNumber; }
-    public string getOrigin() { return origin; }
-    public string getDestination() { return destination; }
-    public int getMaxSeats() { return maxSeats; }
-    public int getNumPassengers() { return numPassengers; }
-
-    public bool addPassenger(Customer c)
+    /// <summary>
+    /// Helper method to get the number of passengers on the flight.
+    /// </summary>
+    /// <returns>amount of passengers registered on this flight</returns>
+    public int getNumPassengers()
     {
-        if (numPassengers >= maxSeats) { return false; }
-        passengers[numPassengers] = c;
-        numPassengers++;
+        return this._passengers.Count;
+    }
+
+    /// <summary>
+    /// Adds a passenger to the flight if there is room.
+    /// </summary>
+    /// <param name="customer">Customer object to add</param>
+    /// <returns>True if the passenger was added, False otherwise</returns>
+    public bool addPassenger(Customer customer)
+    {
+        //Reject if we're maxed out on seats
+        if (getNumPassengers() >= _maxPassengers)
+            { return false; }
+
+        //Otherwise add
+        _passengers.Add(customer.Id, customer);
         return true;
     }
 
-    public int findPassenger(int custId)
+    /// <summary>
+    /// Tries to get a passenger by id. Returns null if not found.
+    /// </summary>
+    /// <param name="customerId">Id of the customer to get</param>
+    /// <returns>Customer object with the given id if found, null if not.</returns>
+    public Customer? getPassenger(string customerId)
     {
-        for (int x = 0; x < maxSeats; x++)
-        {
-            if (passengers[x].getId() == custId)
-                return x;
-        }
-        return -1;
+        Customer? customer = null;
+        _passengers.TryGetValue(customerId, out customer);
+
+        return customer;
     }
 
-    public bool removePassenger(int custId)
+    /// <summary>
+    /// Removes a passenger from the flight. Returns false if nothin was removed.
+    /// </summary>
+    /// <param name="customerId">Id of the customer to remove</param>
+    /// <returns>true if removed successfully, false otherwise</returns>
+    public bool removePassenger(string customerId)
     {
-        int loc = findPassenger(custId);
-        if (loc == -1) return false;
-        passengers[loc] = passengers[numPassengers - 1];
-        numPassengers--;
-        return true;
+        return _passengers.Remove(customerId);
     }
 
-    public string getPassengerList()
+    /// <summary>
+    /// Returns a human readable list of all passengers on the flight.
+    /// </summary>
+    /// <param name="additionalIndent">If the output should be indented, the indent may be supplied. (Default: "")</param>
+    /// <returns>A string list of all passengers on the flight</returns>
+    public string getPassengerList(string additionalIndent="")
     {
-        string s = "\nPassengers on flight " + flightNumber + ":";
-        for (int x = 0; x < numPassengers; x++)
-        {
-            s = s + "\n" + passengers[x].getFirstName() + " " + passengers[x].getLastName();
-        }
-        return s;
+        string rv = $"\n{additionalIndent}Passengers on flight " + _flightNumber + ":";
+        foreach (Customer customer in _passengers.Values)
+            { rv += $"\n\t{additionalIndent}{customer.FirstName} {customer.LastName}"; }
+
+        return rv;
     }
 
-    public string toString()
+    /// <summary>
+    /// ToString override
+    /// </summary>
+    /// <returns>String representation of this flight</returns>
+    public override string ToString()
     {
-        string s = "Flight Number: " + flightNumber;
-        s = s + "\nOrigin: " + origin;
-        s = s + "\nDestination:" + destination;
-        s = s + "\nNumber of Passengers:" + numPassengers;
-        s = s + "\nAvailable seats:" + (maxSeats - numPassengers);
-        s = s + getPassengerList();
-        return s;
+        return (
+            $"Flight: {_flightNumber}"
+            + $"\n\tOrigin: {_originAirport}"
+            + $"\n\tDestination: {_destinationAirport}"
+            + $"\n\tNumber of Passengers: {getNumPassengers()}"
+            + $"\n\tAvailable seats: {(_maxPassengers - getNumPassengers())}"
+            + $"{getPassengerList("\t")}"
+        );
     }
 }

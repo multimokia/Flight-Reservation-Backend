@@ -1,47 +1,62 @@
-class Customer
+public class Customer
 {
-    private int customerId;
-    private string firstName;
-    private string lastName;
-    private string phone;
-    private int bookings;
+    /// <summary>
+    /// Customer id
+    /// </summary>
+    private string _id;
+    public string Id {get { return _id; }}
 
-    public Customer(int cId,string fname,string lname, string ph)
+    /// <summary>
+    /// Customer's first name
+    /// </summary>
+    private string _firstName;
+    public string FirstName {get { return _firstName; }}
+
+    /// <summary>
+    /// Customer's last name
+    /// </summary>
+    private string _lastName;
+    public string LastName {get { return _lastName; }}
+
+    /// <summary>
+    /// Customer's phone number
+    /// </summary>
+    private string _phoneNumber;
+    public string PhoneNumber {get { return _phoneNumber; }}
+
+    /// <summary>
+    /// Number of bookings the customer has
+    /// </summary>
+    private int _numberOfBookings;
+    public int NumberOfBookings {get { return _numberOfBookings; }}
+
+    public Customer(string firstName, string lastName, string phoneNumber)
     {
-        bookings = 0;
-        customerId = cId;
-        firstName = fname;
-        lastName = lname;
-        phone = ph;
+        //For the sake of easy value comparison, we'll hash the id so we know if two customers
+        //share the same info through the value of its id
+        this._id = Utilities.HashString($"{firstName}{lastName}{phoneNumber}".Replace(" ", "").ToLower());
+        this._firstName = firstName;
+        this._lastName = lastName;
+        this._phoneNumber = phoneNumber;
+        this._numberOfBookings = 0;
     }
 
-    public int getId()
+    /// <summary>
+    /// Equals function. Checks if two customers are the same
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public bool Equals(Customer other)
     {
-        return customerId;
+        return this.Id == other.Id;
     }
 
-    public string getFirstName()
+    /// <summary>
+    /// ToString override
+    /// </summary>
+    /// <returns>A string representation of the Customer</returns>
+    public override string ToString()
     {
-        return firstName;
-    }
-
-    public string getLastName()
-    {
-        return lastName;
-    }
-
-    public string getPhone()
-    {
-        return phone;
-    }
-
-    public int getNumBookings()
-    {
-        return bookings;
-    }
-
-    public string toString()
-    {
-        return $"Customer {customerId}:\n\tName: {firstName} {lastName}\n\tPhone: {phone}\n\tBookings: {bookings}";
+        return $"Customer {_id}:\n\tName: {_firstName} {_lastName}\n\tPhone: {_phoneNumber}\n\tBookings: {_numberOfBookings}";
     }
 }

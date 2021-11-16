@@ -1,20 +1,25 @@
-﻿using System;
+﻿/*
+ * Michael D'mello
+ * <StudentId>
+ */
+
+using System;
 
 namespace Project_Backend
 {
     class Program
     {
-        static AirlineCoordinator aCoord;
+        static AirlineCoordinator _airlineCoordinator;
 
         public static void deleteFlight()
         {
             int id;
             Console.Clear();
-            Console.WriteLine(aCoord.flightList());
+            Console.WriteLine(_airlineCoordinator.flightList());
             Console.Write("Please enter a flight id to delete:");
             id = Convert.ToInt32(Console.ReadLine());
 
-            if (aCoord.deleteFlight(id))
+            if (_airlineCoordinator.deleteFlight(id))
                 { Console.WriteLine("Flight with id {0} deleted..", id); }
             else
                 { Console.WriteLine("Flight with id {0} was not found..", id); }
@@ -26,19 +31,19 @@ namespace Project_Backend
         public static void viewFlights()
         {
             Console.Clear();
-            Console.WriteLine(aCoord.flightList());
+            Console.WriteLine(_airlineCoordinator.flightList());
             Console.WriteLine("\nPress any key to continue return to the main menu.");
             Console.ReadKey();
         }
 
         public static void addFlight(){
-            int flightNo,maxSeats;
+            int flightNumber, maxSeats;
             string origin, destination;
 
             Console.Clear();
             Console.WriteLine("-----------Add Flight----------");
             Console.Write("Please enter the flight number:");
-            flightNo = Convert.ToInt32(Console.ReadLine());
+            flightNumber = Convert.ToInt32(Console.ReadLine());
             Console.Write("Please the maximum number of seats:");
             maxSeats = Convert.ToInt32(Console.ReadLine());
             Console.Write("Please enter the port of Origin:");
@@ -46,7 +51,7 @@ namespace Project_Backend
             Console.Write("Please enter the destination port:");
             destination = Console.ReadLine();
 
-            if(aCoord.addFlight(flightNo, origin, destination, maxSeats))
+            if (_airlineCoordinator.addFlight(flightNumber, maxSeats, origin, destination))
                 { Console.WriteLine("Flight successfully added.."); }
             else
                 { Console.WriteLine("Flight was not added.."); }
@@ -96,7 +101,7 @@ namespace Project_Backend
 
         static void Main(string[] args)
         {
-            aCoord = new AirlineCoordinator(100, 2, 30);
+            _airlineCoordinator = new AirlineCoordinator(100, 2, 30);
             runProgram();
             Console.WriteLine("Thank you for using XYZ Airlines System. Press any key to exit.");
             Console.ReadKey();
