@@ -45,7 +45,7 @@ class Flight
     /// Helper method to get the number of passengers on the flight.
     /// </summary>
     /// <returns>amount of passengers registered on this flight</returns>
-    public int getNumPassengers()
+    public int GetNumPassengers()
     {
         return this._passengers.Count;
     }
@@ -55,10 +55,10 @@ class Flight
     /// </summary>
     /// <param name="customer">Customer object to add</param>
     /// <returns>True if the passenger was added, False otherwise</returns>
-    public bool addPassenger(Customer customer)
+    public bool AddPassenger(Customer customer)
     {
         //Reject if we're maxed out on seats
-        if (getNumPassengers() >= _maxPassengers)
+        if (GetNumPassengers() >= _maxPassengers)
             { return false; }
 
         //Otherwise add
@@ -71,9 +71,9 @@ class Flight
     /// </summary>
     /// <param name="customerId">Id of the customer to get</param>
     /// <returns>Customer object with the given id if found, null if not.</returns>
-    public Customer? getPassenger(string customerId)
+    public Customer GetPassenger(string customerId)
     {
-        Customer? customer = null;
+        Customer customer = null;
         _passengers.TryGetValue(customerId, out customer);
 
         return customer;
@@ -84,7 +84,7 @@ class Flight
     /// </summary>
     /// <param name="customerId">Id of the customer to remove</param>
     /// <returns>true if removed successfully, false otherwise</returns>
-    public bool removePassenger(string customerId)
+    public bool RemovePassenger(string customerId)
     {
         return _passengers.Remove(customerId);
     }
@@ -94,7 +94,7 @@ class Flight
     /// </summary>
     /// <param name="additionalIndent">If the output should be indented, the indent may be supplied. (Default: "")</param>
     /// <returns>A string list of all passengers on the flight</returns>
-    public string getPassengerList(string additionalIndent="")
+    public string GetPassengerList(string additionalIndent="")
     {
         string rv = $"\n{additionalIndent}Passengers on flight " + _flightNumber + ":";
         foreach (Customer customer in _passengers.Values)
@@ -113,9 +113,9 @@ class Flight
             $"Flight: {_flightNumber}"
             + $"\n\tOrigin: {_originAirport}"
             + $"\n\tDestination: {_destinationAirport}"
-            + $"\n\tNumber of Passengers: {getNumPassengers()}"
-            + $"\n\tAvailable seats: {(_maxPassengers - getNumPassengers())}"
-            + $"{getPassengerList("\t")}"
+            + $"\n\tNumber of Passengers: {GetNumPassengers()}"
+            + $"\n\tAvailable seats: {(_maxPassengers - GetNumPassengers())}"
+            + $"{GetPassengerList("\t")}"
         );
     }
 }

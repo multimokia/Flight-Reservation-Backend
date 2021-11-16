@@ -15,11 +15,11 @@ namespace Project_Backend
         {
             int id;
             Console.Clear();
-            Console.WriteLine(_airlineCoordinator.flightList());
+            Console.WriteLine(_airlineCoordinator.FlightList());
             Console.Write("Please enter a flight id to delete:");
             id = Convert.ToInt32(Console.ReadLine());
 
-            if (_airlineCoordinator.deleteFlight(id))
+            if (_airlineCoordinator.DeleteFlight(id))
                 { Console.WriteLine("Flight with id {0} deleted..", id); }
             else
                 { Console.WriteLine("Flight with id {0} was not found..", id); }
@@ -31,7 +31,7 @@ namespace Project_Backend
         public static void viewFlights()
         {
             Console.Clear();
-            Console.WriteLine(_airlineCoordinator.flightList());
+            Console.WriteLine(_airlineCoordinator.FlightList());
             Console.WriteLine("\nPress any key to continue return to the main menu.");
             Console.ReadKey();
         }
@@ -51,7 +51,7 @@ namespace Project_Backend
             Console.Write("Please enter the destination port:");
             destination = Console.ReadLine();
 
-            if (_airlineCoordinator.addFlight(flightNumber, maxSeats, origin, destination))
+            if (_airlineCoordinator.AddFlight(flightNumber, maxSeats, origin, destination))
                 { Console.WriteLine("Flight successfully added.."); }
             else
                 { Console.WriteLine("Flight was not added.."); }
@@ -101,7 +101,7 @@ namespace Project_Backend
 
         static void Main(string[] args)
         {
-            _airlineCoordinator = new AirlineCoordinator(100, 2, 30);
+            _airlineCoordinator = new AirlineCoordinator();
             runProgram();
             Console.WriteLine("Thank you for using XYZ Airlines System. Press any key to exit.");
             Console.ReadKey();

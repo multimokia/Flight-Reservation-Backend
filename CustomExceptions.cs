@@ -28,6 +28,20 @@ public class DuplicateCustomerException : Exception
     }
 }
 
+public class DuplicateBookingException : Exception
+{
+    private Booking _booking;
+    public override string Message
+    {
+        get { return $"A booking with this specification already exists ({_booking.Id})."; }
+    }
+
+    public DuplicateBookingException(Booking booking)
+    {
+        _booking = booking;
+    }
+}
+
 public class CustomerNotFoundException : Exception
 {
     private string _customerId;

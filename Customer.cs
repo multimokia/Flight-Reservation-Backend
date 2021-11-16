@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class Customer
 {
     /// <summary>
@@ -25,10 +27,10 @@ public class Customer
     public string PhoneNumber {get { return _phoneNumber; }}
 
     /// <summary>
-    /// Number of bookings the customer has
+    /// A reference to the bookings this customer has
     /// </summary>
-    private int _numberOfBookings;
-    public int NumberOfBookings {get { return _numberOfBookings; }}
+    private List<string> _bookings;
+    public List<string> Bookings {get { return _bookings; }}
 
     public Customer(string firstName, string lastName, string phoneNumber)
     {
@@ -38,7 +40,7 @@ public class Customer
         this._firstName = firstName;
         this._lastName = lastName;
         this._phoneNumber = phoneNumber;
-        this._numberOfBookings = 0;
+        this._bookings = new List<string>();
     }
 
     /// <summary>
@@ -52,11 +54,31 @@ public class Customer
     }
 
     /// <summary>
+    /// Adds a booking to the customer's list of bookings
+    /// </summary>
+    /// <param name="bookingId">id of the booking to add</param>
+    public void AddBookingReference(string bookingId)
+    {
+        //Safety check to prevent duplicate data, this should never happen
+        if (!this._bookings.Contains(bookingId))
+            { this._bookings.Add(bookingId); }
+    }
+
+    /// <summary>
+    /// Removes a booking from the customer's list of bookings
+    /// </summary>
+    /// <param name="bookingId">id of the booking to remove</param>
+    public void RemoveBookingReference(string bookingId)
+    {
+        this._bookings.Remove(bookingId);
+    }
+
+    /// <summary>
     /// ToString override
     /// </summary>
     /// <returns>A string representation of the Customer</returns>
     public override string ToString()
     {
-        return $"Customer {_id}:\n\tName: {_firstName} {_lastName}\n\tPhone: {_phoneNumber}\n\tBookings: {_numberOfBookings}";
+        return $"Customer {_id}:\n\tName: {_firstName} {_lastName}\n\tPhone: {_phoneNumber}\n\tBookings: {_bookings.Count}";
     }
 }

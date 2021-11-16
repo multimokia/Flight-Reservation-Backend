@@ -3,19 +3,17 @@ using System.Collections.Generic;
 
 class FlightManager
 {
-    private int _maxFlights;
     private Dictionary<int, Flight> _flights;
 
-    public FlightManager(int max)
+    public FlightManager()
     {
-        _maxFlights = max;
         _flights = new Dictionary<int, Flight>();
     }
 
     public bool AddFlight(int flightNumber, int maxSeats, string origin, string destination)
     {
         //If we already have this flight, don't try to add again
-        if (_flights.Count >= _maxFlights || HasFlight(flightNumber))
+        if (HasFlight(flightNumber))
             { return false; }
 
         Flight flight = new Flight(flightNumber, maxSeats, origin, destination);
@@ -28,7 +26,7 @@ class FlightManager
         return _flights.ContainsKey(flightNumber);
     }
 
-    public Flight? GetFlight(int flightNumber)
+    public Flight GetFlight(int flightNumber)
     {
         Flight flight = null;
         _flights.TryGetValue(flightNumber, out flight);
@@ -43,14 +41,14 @@ class FlightManager
         if (flight == null)
             { throw new FlightNotFoundException(flightNumber); }
 
-        if (flight.getNumPassengers() > 0)
+        if (flight.GetNumPassengers() > 0)
             { throw new InvalidOperationException("Flights may only be deleted if they have no passengers booked."); }
 
         //If checks pass, remove the flight and return status
         return _flights.Remove(flightNumber);
     }
 
-    public string getFlightList()
+    public string GetFlightList()
     {
         string rv = "Flight List:";
         foreach (KeyValuePair<int, Flight> flight in _flights)
