@@ -21,22 +21,12 @@ class FlightManager
     public bool AddFlight(int flightNumber, int maxSeats, string origin, string destination)
     {
         //If we already have this flight, don't try to add again
-        if (HasFlight(flightNumber))
+        if (_flights.ContainsKey(flightNumber))
             { return false; }
 
         Flight flight = new Flight(flightNumber, maxSeats, origin, destination);
         _flights.Add(flightNumber, flight);
         return true;
-    }
-
-    /// <summary>
-    /// Checks if a flight with the given flight number exists
-    /// </summary>
-    /// <param name="flightNumber">flight number to check for</param>
-    /// <returns>True if a flight with the id exists, false otherwise</returns>
-    public bool HasFlight(int flightNumber)
-    {
-        return _flights.ContainsKey(flightNumber);
     }
 
     /// <summary>
@@ -46,9 +36,10 @@ class FlightManager
     /// <returns>Flight object if found, null otherwise</returns>
     public Flight GetFlight(int flightNumber)
     {
-        Flight flight = null;
-        _flights.TryGetValue(flightNumber, out flight);
-        return flight;
+        if (!_flights.ContainsKey(flightNumber))
+            { return null; }
+
+        return _flights[flightNumber];
     }
 
     /// <summary>
@@ -76,11 +67,11 @@ class FlightManager
     /// Gets a human readable list of flights
     /// </summary>
     /// <returns>List of flights as string</returns>
-    public string GetFlightList()
+    public string GetAllFlights()
     {
         string rv = "Flight List:";
         foreach (KeyValuePair<int, Flight> flight in _flights)
-            { rv += $"\n\t{flight.Key} from {flight.Value.OriginAirport} to {flight.Value.DestinationAirport}"; }
+            { rv += $"\n\t{flight.Key}: from {flight.Value.OriginAirport} to {flight.Value.DestinationAirport}"; }
         return rv;
     }
 }

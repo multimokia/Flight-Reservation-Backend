@@ -34,11 +34,11 @@ class Flight
 
     public Flight(int flightNumber, int maxSeats, string origin, string destination)
     {
-        this._flightNumber = flightNumber;
-        this._maxPassengers = maxSeats;
-        this._originAirport = origin;
-        this._destinationAirport = destination;
-        this._passengers = new Dictionary<string, Customer>();
+        _flightNumber = flightNumber;
+        _maxPassengers = maxSeats;
+        _originAirport = origin;
+        _destinationAirport = destination;
+        _passengers = new Dictionary<string, Customer>();
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ class Flight
     /// <returns>amount of passengers registered on this flight</returns>
     public int GetNumPassengers()
     {
-        return this._passengers.Count;
+        return _passengers.Count;
     }
 
     /// <summary>
@@ -73,10 +73,10 @@ class Flight
     /// <returns>Customer object with the given id if found, null if not.</returns>
     public Customer GetPassenger(string customerId)
     {
-        Customer customer = null;
-        _passengers.TryGetValue(customerId, out customer);
+        if (!_passengers.ContainsKey(customerId))
+            { return null; }
 
-        return customer;
+        return _passengers[customerId];
     }
 
     /// <summary>

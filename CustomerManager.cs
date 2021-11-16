@@ -37,9 +37,7 @@ class CustomerManager
     /// <exception cref="InvalidOperationException">If the customer has bookings</exception>
     public void RemoveCustomer(string customerId)
     {
-        Customer customer = null;
-
-        _customers.TryGetValue(customerId, out customer);
+        Customer customer = GetCustomer(customerId);
 
         if (customer == null)
             { throw new CustomerNotFoundException(customerId); }
@@ -68,9 +66,7 @@ class CustomerManager
     /// <param name="bookingId">Id of the booking to add</param>
     public void AddBookingReference(string customerId, string bookingId)
     {
-        Customer customer = null;
-
-        _customers.TryGetValue(customerId, out customer);
+        Customer customer = GetCustomer(customerId);
 
         if (customer == null)
             { throw new CustomerNotFoundException(customerId); }

@@ -36,11 +36,11 @@ public class Customer
     {
         //For the sake of easy value comparison, we'll hash the id so we know if two customers
         //share the same info through the value of its id
-        this._id = Utilities.HashString($"{firstName}{lastName}{phoneNumber}".Replace(" ", "").ToLower());
-        this._firstName = firstName;
-        this._lastName = lastName;
-        this._phoneNumber = phoneNumber;
-        this._bookings = new List<string>();
+        _id = Utilities.HashString($"{firstName}{lastName}{phoneNumber}".Replace(" ", "").ToLower());
+        _firstName = firstName;
+        _lastName = lastName;
+        _phoneNumber = phoneNumber;
+        _bookings = new List<string>();
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class Customer
     /// <returns></returns>
     public bool Equals(Customer other)
     {
-        return this.Id == other.Id;
+        return Id == other.Id;
     }
 
     /// <summary>
@@ -60,8 +60,8 @@ public class Customer
     public void AddBookingReference(string bookingId)
     {
         //Safety check to prevent duplicate data, this should never happen
-        if (!this._bookings.Contains(bookingId))
-            { this._bookings.Add(bookingId); }
+        if (!_bookings.Contains(bookingId))
+            { _bookings.Add(bookingId); }
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class Customer
     /// <param name="bookingId">id of the booking to remove</param>
     public void RemoveBookingReference(string bookingId)
     {
-        this._bookings.Remove(bookingId);
+        _bookings.Remove(bookingId);
     }
 
     /// <summary>

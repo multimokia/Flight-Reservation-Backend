@@ -7,7 +7,7 @@ class BookingManager
 
     public BookingManager()
     {
-        this._bookings = new Dictionary<string, Booking>();
+        _bookings = new Dictionary<string, Booking>();
     }
 
     /// <summary>
@@ -22,11 +22,11 @@ class BookingManager
     {
         Booking booking = new Booking(date, flightId, customerId);
 
-        if (this._bookings.ContainsKey(booking.Id))
+        if (_bookings.ContainsKey(booking.Id))
             { throw new DuplicateBookingException(booking); }
 
         //Add the booking to the dict and register its reference in the customer
-        this._bookings.Add(booking.Id, booking);
+        _bookings.Add(booking.Id, booking);
         return booking.Id;
     }
 
@@ -37,17 +37,17 @@ class BookingManager
     /// <returns></returns>
     public bool RemoveBooking(string bookingId)
     {
-        if (!this._bookings.ContainsKey(bookingId))
+        if (!_bookings.ContainsKey(bookingId))
             { return false; }
 
-        return this._bookings.Remove(bookingId);
+        return _bookings.Remove(bookingId);
     }
 
     public Booking GetBooking(string bookingId)
     {
-        if (!this._bookings.ContainsKey(bookingId))
+        if (!_bookings.ContainsKey(bookingId))
             { return null; }
 
-        return this._bookings[bookingId];
+        return _bookings[bookingId];
     }
 }
