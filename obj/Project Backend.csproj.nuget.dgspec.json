@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/run/media/multimokia/New Volume/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj": {}
+    "/run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj": {}
   },
   "projects": {
-    "/run/media/multimokia/New Volume/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj": {
+    "/run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/run/media/multimokia/New Volume/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj",
+        "projectUniqueName": "/run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj",
         "projectName": "Project Backend",
-        "projectPath": "/run/media/multimokia/New Volume/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj",
+        "projectPath": "/run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj",
         "packagesPath": "/home/multimokia/.nuget/packages/",
-        "outputPath": "/run/media/multimokia/New Volume/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/obj/",
+        "outputPath": "/run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/multimokia/.nuget/NuGet/NuGet.Config"
@@ -37,6 +37,12 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "Crayon": {
+              "target": "Package",
+              "version": "[2.0.64, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

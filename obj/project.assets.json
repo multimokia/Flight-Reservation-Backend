@@ -1,11 +1,36 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {}
+    "net5.0": {
+      "Crayon/2.0.64": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Crayon.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Crayon.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Crayon/2.0.64": {
+      "sha512": "/HvVrtMTaZ4nm3xYGkNFfRiPLoqRuQQgZIlyYUCn9fQa2UlT6PA/xoGJFaV2S8ogz/LoTdq6Wi2Qi7DddF1JSg==",
+      "type": "package",
+      "path": "crayon/2.0.64",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "crayon.2.0.64.nupkg.sha512",
+        "crayon.nuspec",
+        "lib/netstandard2.0/Crayon.dll"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net5.0": []
+    "net5.0": [
+      "Crayon >= 2.0.64"
+    ]
   },
   "packageFolders": {
     "/home/multimokia/.nuget/packages/": {}
@@ -13,11 +38,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/run/media/multimokia/New Volume/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj",
+      "projectUniqueName": "/run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj",
       "projectName": "Project Backend",
-      "projectPath": "/run/media/multimokia/New Volume/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj",
+      "projectPath": "/run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj",
       "packagesPath": "/home/multimokia/.nuget/packages/",
-      "outputPath": "/run/media/multimokia/New Volume/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/obj/",
+      "outputPath": "/run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/multimokia/.nuget/NuGet/NuGet.Config"
@@ -43,6 +68,12 @@
     "frameworks": {
       "net5.0": {
         "targetAlias": "net5.0",
+        "dependencies": {
+          "Crayon": {
+            "target": "Package",
+            "version": "[2.0.64, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
