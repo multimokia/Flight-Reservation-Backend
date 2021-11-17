@@ -5,6 +5,9 @@
 
 using System;
 
+using Library;
+using Library.Errors;
+
 namespace Project_Backend
 {
     class Program
