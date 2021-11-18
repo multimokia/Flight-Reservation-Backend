@@ -47,12 +47,26 @@ namespace Library
             return _bookings.Remove(bookingId);
         }
 
+        /// <summary>
+        /// Gets a specific booking by id
+        /// </summary>
+        /// <param name="bookingId">id of the booking to get</param>
+        /// <returns>Booking object if found, null if not</returns>
         public Booking GetBooking(string bookingId)
         {
             if (!_bookings.ContainsKey(bookingId))
                 { return null; }
 
             return _bookings[bookingId];
+        }
+
+        /// <summary>
+        /// Getter for bookings
+        /// </summary>
+        /// <returns>Dict of bookings registered</returns>
+        public Dictionary<string, Booking> GetBookings()
+        {
+            return _bookings;
         }
     }
 }

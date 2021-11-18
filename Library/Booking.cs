@@ -1,8 +1,9 @@
 using System;
+using GUI;
 
 namespace Library
 {
-    public class Booking
+    public class Booking : MenuOptionValue
     {
         /// <summary>
         /// Id of the booking
@@ -38,9 +39,22 @@ namespace Library
             _id = Utilities.HashString($"{flightId}{customerId}{_date}");
         }
 
+        /// <summary>
+        /// Returns a DateTime value of the booking's internal timestamp
+        /// </summary>
+        /// <returns>DateTime of timestamp</returns>
         public DateTime GetBookingDateTime()
         {
             return Utilities.FromTimestamp(_date);
+        }
+
+        /// <summary>
+        /// Prompt for menu options
+        /// </summary>
+        /// <returns>menu option prompt</returns>
+        public override string GetMenuPrompt()
+        {
+            return $"Customer {this.CustomerId} for flight {this.FlightId}. {this.GetBookingDateTime()}";
         }
 
         /// <summary>

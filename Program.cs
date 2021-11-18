@@ -49,18 +49,66 @@ namespace Project_Backend
             {
                 MenuOption<Action> choice = Menu(
                     prompt: "What would you like to do?",
-                    new MenuOption<Action>("Add a customer", AddFlight),
-                    new MenuOption<Action>("View all customers", ViewAllFlights),
-                    new MenuOption<Action>("Delete a customer", DeleteFlight),
+                    new MenuOption<Action>("Add a customer", AddCustomer),
+                    new MenuOption<Action>("View all customers", ViewAllCustomers),
+                    new MenuOption<Action>("Delete a customer", DeleteCustomer),
                     new MenuOption<Action>("Back", () => { done = true; })
                 );
 
                 choice.Result();
             }
         }
+
+        public static void AddCustomer()
+        {
+            string fname = Prompt("What is the customer's first name?");
+            string lname = Prompt("What is the customer's last name?");
+            string phonenumber = Prompt("What is the customer's phone number?");
+
+            if (_airlineCoordinator.AddCustomer(fname, lname, phonenumber))
+                { Success("Customer added successfully."); }
+
+            else
+                { Error("A customer with this info already exists."); }
+
+        }
+
+        public static void ViewAllCustomers()
+        {
+            Customer[] customers = _airlineCoordinator.GetCustomers();
+            if (customers.Length == 0)
+            {
+                Error("No customers are registered.");
+                return;
+            }
+
+            foreach (Customer customer in customers)
+                { Console.WriteLine(Bold($"{customer.FirstName} {customer.LastName} - {customer.PhoneNumber}")); }
+
+            PromptToContinue();
+        }
+
+        public static void DeleteCustomer()
+        {
+            Customer selectedCustomer = Select<Customer>("Select a customer to delete", _airlineCoordinator.GetCustomers());
+
+            //Sanity check, if this is null we had no customers to select or the user backed out
+            if (selectedCustomer == null)
+                { return; }
+
+            if (_airlineCoordinator.DeleteCustomer(selectedCustomer.Id))
+                { Success("Customer deleted successfully."); }
+
+            else
+                { Error("The customer has bookings and as such cannot be deleted."); }
+        }
         #endregion
 
         #region Booking Menu
+
+        /// <summary>
+        /// Submenu for bookings
+        /// </summary>
         public static void BookingMenu()
         {
             bool done = false;
@@ -69,8 +117,8 @@ namespace Project_Backend
                 MenuOption<Action> choice = Menu(
                     prompt: "Please select a choice from the menu below",
                     new MenuOption<Action>("Make a booking", AddBooking),
-                    new MenuOption<Action>("View all bookings", ViewAllFlights),
-                    new MenuOption<Action>("Delete a booking", DeleteFlight),
+                    new MenuOption<Action>("View all bookings", ViewAllBookings),
+                    new MenuOption<Action>("Delete a booking", DeleteBooking),
                     new MenuOption<Action>("Back", () => { done = true; })
                 );
 
@@ -78,6 +126,9 @@ namespace Project_Backend
             }
         }
 
+        /// <summary>
+        /// Menu flow for adding a booking
+        /// </summary>
         public static void AddBooking()
         {
             Customer[] customers = _airlineCoordinator.GetCustomers();
@@ -117,6 +168,48 @@ namespace Project_Backend
                 { Success("Booking added successfully."); }
             else
                 { Error("A booking with that specification already exists."); }
+        }
+
+        /// <summary>
+        /// Menu flow for viewing all bookings
+        /// </summary>
+        public static void ViewAllBookings()
+        {
+            Booking[] bookings = _airlineCoordinator.GetBookings();
+            if (bookings.Length == 0)
+            {
+                Error("There are no bookings to display.");
+                return;
+            }
+
+            foreach (Booking booking in bookings)
+            {
+                Customer customer = _airlineCoordinator.GetCustomer(booking.CustomerId);
+                Flight flight = _airlineCoordinator.GetFlight(booking.FlightId);
+
+                Success(
+                    $"{customer.FirstName} {customer.LastName}: booked for flight {flight.FlightNumber} on {booking.GetBookingDateTime()}"
+                );
+            }
+        }
+
+        /// <summary>
+        /// Menu flow for deleting a booking
+        /// </summary>
+        public static void DeleteBooking()
+        {
+            Booking[] bookings = _airlineCoordinator.GetBookings();
+            if (bookings.Length == 0)
+            {
+                Error("There are no bookings to delete.");
+                return;
+            }
+
+            Booking chosenBooking = Select<Booking>("Which booking would you like to delete?", bookings);
+
+            //Bookings have no restriction on deletion, therefore they're always a success
+            _airlineCoordinator.DeleteBooking(chosenBooking.Id);
+            Success("Booking deleted successfully.");
         }
         #endregion
 
@@ -192,7 +285,8 @@ namespace Project_Backend
             if (choice == null)
                 { return; }
 
-            Success(choice.ToString());
+            Bold(choice.ToString());
+            PromptToContinue();
         }
 
         /// <summary>

@@ -33,12 +33,12 @@ namespace Library
         /// <summary>
         /// Deletes a flight from the flight manager.
         /// </summary>
-        /// <param name="flightId">Id of the flight to delete</param>
+        /// <param name="flightNumber">flight number of the flight to delete</param>
         /// <exception cref="FlightNotFoundException">Thrown if the flight is not found</exception>
         /// <exception cref="InvalidOperationException">Thrown if the flight has bookings</exception>
-        public void DeleteFlight(int flightId)
+        public void DeleteFlight(int flightNumber)
         {
-            _flightManager.DeleteFlight(flightId);
+            _flightManager.DeleteFlight(flightNumber);
         }
 
         /// <summary>
@@ -51,14 +51,30 @@ namespace Library
         }
 
         /// <summary>
+        /// Passthrough method to the flight manager, gets flight by flight number.
+        /// </summary>
+        /// <param name="flightNumber">flightNumber to get</param>
+        /// <returns>Flight if found, null if not</returns>
+        public Flight GetFlight(int flightNumber)
+        {
+            return _flightManager.GetFlight(flightNumber);
+        }
+
+        /// <summary>
         /// Adds a customer to the customer manager.
         /// </summary>
         /// <param name="firstName">Customer's first name</param>
         /// <param name="lastName">Customer's last name</param>
         /// <param name="phoneNumber">Customer's phone number</param>
-        public void AddCustomer(string firstName, string lastName, string phoneNumber)
+        /// <returns>true if customer was added, false otherwise</returns>
+        public bool AddCustomer(string firstName, string lastName, string phoneNumber)
         {
-            _customerManager.AddCustomer(firstName, lastName, phoneNumber);
+            try
+                { _customerManager.AddCustomer(firstName, lastName, phoneNumber); }
+            catch (Errors.DuplicateCustomerException)
+                { return false; }
+
+            return true;
         }
 
         /// <summary>
@@ -66,10 +82,16 @@ namespace Library
         /// </summary>
         /// <param name="customerId">Id of the customer</param>
         /// <exception cref="CustomerNotFoundException">If the customer does not exist</exception>
-        /// <exception cref="InvalidOperationException">If the customer cannot be deleted because they have bookings</exception>
-        public void DeleteCustomer(string customerId)
+        /// <returns>true if customer was deleted, false otherwise</returns>
+        public bool DeleteCustomer(string customerId)
         {
-            _customerManager.RemoveCustomer(customerId);
+            try
+                { _customerManager.RemoveCustomer(customerId); }
+
+            catch (InvalidOperationException)
+                { return false; }
+
+            return true;
         }
 
         /// <summary>
@@ -79,6 +101,16 @@ namespace Library
         public Customer[] GetCustomers()
         {
             return _customerManager.GetCustomers().Values.ToArray();
+        }
+
+        /// <summary>
+        /// Passthrough method to the customer manager to get a customer by id
+        /// </summary>
+        /// <param name="customerId">id of the customer to get</param>
+        /// <returns>Customer if found, null if not</returns>
+        public Customer GetCustomer(string customerId)
+        {
+            return _customerManager.GetCustomer(customerId);
         }
 
         /// <summary>
@@ -116,6 +148,11 @@ namespace Library
             _bookingManager.RemoveBooking(bookingId);
             customer.RemoveBookingReference(bookingId);
             flight.RemovePassenger(booking.CustomerId);
+        }
+
+        public Booking[] GetBookings()
+        {
+            return _bookingManager.GetBookings().Values.ToArray();
         }
     }
 }
