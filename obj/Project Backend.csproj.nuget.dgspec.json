@@ -41,6 +41,10 @@
             "Crayon": {
               "target": "Package",
               "version": "[2.0.64, )"
+            },
+            "newtonsoft.json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
             }
           },
           "imports": [

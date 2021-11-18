@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "7rG3BEh40WweXMQkhfRzf5JaxnVb3d6oSmUTvNg/NYR8kUC/tB214S9LKoaKKiyxjrAzg/E4sjDif3dpMQNPAg==",
+  "dgSpecHash": "Om0SZbOYhuvsAJcMu5zuU2I+8QKr/d3gb18jUcUuR6LV+gfvBFofz50IdRLZsxngqT/w8A3R8MfCu5ljfA6j4Q==",
   "success": true,
   "projectFilePath": "/run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/Project Backend.csproj",
   "expectedPackageFiles": [
     "/home/multimokia/.nuget/packages/crayon/2.0.64/crayon.2.0.64.nupkg.sha512",
+    "/home/multimokia/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
     "/home/multimokia/.nuget/packages/microsoft.aspnetcore.app.ref/5.0.0/microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512"
   ],
   "logs": []

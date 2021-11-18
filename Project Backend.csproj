@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Crayon" Version="2.0.64" />
+    <PackageReference Include="newtonsoft.json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>
