@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using static Crayon.Output;
-using GUI.Menu;
 
 namespace GUI
 {
@@ -15,7 +15,7 @@ namespace GUI
         /// <param name="prompt">The main prompt for the menu</param>
         /// <param name="menuItems">Array of MenuOptions representing the options of the menu</param>
         /// <returns>MenuOption representing the selected option</returns>
-        public static MenuOption Menu(string prompt, params MenuOption[] menuItems)
+        public static MenuOption<T> Menu<T>(string prompt, params MenuOption<T>[] menuItems)
         {
             int currItem = 0;
             ConsoleKeyInfo key;
@@ -100,6 +100,31 @@ namespace GUI
             return userValue;
         }
 
+        public static int PromptInt(string prompt)
+        {
+            return Convert.ToInt32(Prompt(prompt, (s) => { return int.TryParse(s, out int _); }));
+        }
+
+        /// <summary>
+        /// Internal function for number prompting
+        /// </summary>
+        /// <param name="prompt">Text to prompt the user with</param>
+        /// <param name="predicate">Function for validation</param>
+        /// <returns>integer representing the number prompted for</returns>
+        public static int PromptInt(string prompt, Func<int, bool> predicate)
+        {
+            int rv = -1;
+            do
+            {
+                bool parsed = int.TryParse(Prompt(prompt), out rv) && predicate(rv);
+                if (!parsed)
+                    { Error("Please enter a valid number"); }
+
+            } while (!predicate(rv));
+
+            return rv;
+        }
+
         /// <summary>
         /// Overload for Prompt, specific to ensure non-empty strings (can be toggled)
         /// </summary>
@@ -153,6 +178,50 @@ namespace GUI
             Console.Write($"{Bold(Green($"🗸 {message}"))}");
             Console.ReadLine();
             callback();
+        }
+
+        /// <summary>
+        /// Simple press enter to continue screen
+        /// </summary>
+        public static void PromptToContinue()
+        {
+            Console.WriteLine(Bold("Press enter to continue..."));
+            Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Helper method to select a specific entry of any MenuOptionValue type from an array of them
+        /// </summary>
+        /// <param name="prompt">Prompt to use for the menu</param>
+        /// <param name="rawOptions"></param>
+        /// <typeparam name="T">A child of MenuOptionValue</typeparam>
+        /// <returns>Object of type T that was selected</returns>
+        public static T Select<T>(string prompt, T[] rawOptions) where T : MenuOptionValue
+        {
+            //Nothing to delete, show an error and return
+            if (rawOptions.Length == 0)
+            {
+                Error($"There are no {typeof(T).Name.ToLower()}s registered.");
+                return null;
+            }
+
+            List<MenuOption<T>> options = new List<MenuOption<T>>();
+
+            foreach (T rawOption in rawOptions)
+            {
+                options.Add(
+                    new MenuOption<T>(
+                        rawOption.GetMenuPrompt(),
+                        rawOption
+                    )
+                );
+            }
+
+            options.Add(
+                new MenuOption<T>("Back", null)
+            );
+
+            return Menu(prompt, options.ToArray()).Result;
         }
     }
 }

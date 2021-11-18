@@ -1,7 +1,7 @@
 using static Crayon.Output;
 using System;
 
-namespace GUI.Menu
+namespace GUI
 {
     /// <summary>
     /// MenuOption class
@@ -17,22 +17,22 @@ namespace GUI.Menu
     ///     Select
     ///     ToString
     /// </summary>
-    class MenuOption
+    class MenuOption<T>
     {
-        string Prompt;
-        bool IsActive;
-        Action _action;
+        public string Prompt {get; init;}
+        private bool _isActive;
+        public T Result {get; init;}
 
         /// <summary>
         /// MenuOption constructor
         /// </summary>
         /// <param name="prompt">Prompt to display in the menu</param>
         /// <param name="_delegate">Function to execute if selected</param>
-        public MenuOption(string prompt, Action _delegate)
+        public MenuOption(string prompt, T value)
         {
             this.Prompt = prompt;
-            this.IsActive = false;
-            this._action = _delegate;
+            this._isActive = false;
+            this.Result = value;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace GUI.Menu
         /// </summary>
         public void SetActive()
         {
-            this.IsActive = true;
+            this._isActive = true;
         }
 
         /// <summary>
@@ -48,15 +48,7 @@ namespace GUI.Menu
         /// </summary>
         public void SetInactive()
         {
-            this.IsActive = false;
-        }
-
-        /// <summary>
-        /// Selects and runs the action tied to this MenuOption
-        /// </summary>
-        public void Select()
-        {
-            this._action();
+            this._isActive = false;
         }
 
         /// <summary>
@@ -65,7 +57,7 @@ namespace GUI.Menu
         /// <returns>String representing the menuoption as it would be in the menu</returns>
         public override string ToString()
         {
-            if (IsActive)
+            if (_isActive)
                 { return $"{Bright.Blue($"❯\t{Underline(Prompt)}")}"; }
 
             else

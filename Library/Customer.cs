@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 
+using GUI;
+
 namespace Library
 {
-    public class Customer
+    public class Customer : MenuOptionValue
     {
         /// <summary>
         /// Customer id
@@ -73,6 +75,15 @@ namespace Library
         public void RemoveBookingReference(string bookingId)
         {
             _bookings.Remove(bookingId);
+        }
+
+        /// <summary>
+        /// Menu prompt for use in a menuoption
+        /// </summary>
+        /// <returns>MenuOption prompt</returns>
+        public override string GetMenuPrompt()
+        {
+            return $"{this.Id}: {this.FirstName} {this.LastName}";
         }
 
         /// <summary>

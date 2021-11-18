@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using static Crayon.Output;
+
+using GUI;
 
 namespace Library
 {
-    class Flight
+    class Flight : MenuOptionValue
     {
         /// <summary>
         /// The flight number
@@ -103,6 +106,15 @@ namespace Library
                 { rv += $"\n\t{additionalIndent}{customer.FirstName} {customer.LastName}"; }
 
             return rv;
+        }
+
+        /// <summary>
+        /// Menu prompt for use in Menu calls
+        /// </summary>
+        /// <returns>A MenuOption prompt for this type</returns>
+        public override string GetMenuPrompt()
+        {
+            return $"{Bright.Yellow(this.FlightNumber.ToString())}: {this.OriginAirport} -> {this.DestinationAirport}";
         }
 
         /// <summary>

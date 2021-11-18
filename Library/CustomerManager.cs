@@ -92,17 +92,12 @@ namespace Library
         }
 
         /// <summary>
-        /// Returns a human readable list of customers
+        /// Returns the customer dict
         /// </summary>
-        /// <returns>String list of customers</returns>
-        public string GetCustomerList()
+        /// <returns>Dict of customers</returns>
+            public Dictionary<string, Customer> GetCustomers()
         {
-            string customerList = "";
-
-            foreach (Customer customer in _customers.Values)
-                { customerList += customer.ToString() + "\n"; }
-
-            return customerList;
+            return _customers;
         }
     }
 }

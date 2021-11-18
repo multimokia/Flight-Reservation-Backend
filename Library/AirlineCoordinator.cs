@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Library
 {
@@ -40,12 +42,12 @@ namespace Library
         }
 
         /// <summary>
-        /// Lists all flights in the flight manager.
+        /// Gets an array of all flights.
         /// </summary>
-        /// <returns>String representing all flights stored in the flight manager</returns>
-        public string FlightList()
+        /// <returns>Array of Flights</returns>
+        public Flight[] GetFlights()
         {
-            return _flightManager.GetAllFlights();
+            return _flightManager.GetAllFlights().Values.ToArray();
         }
 
         /// <summary>
@@ -71,29 +73,34 @@ namespace Library
         }
 
         /// <summary>
-        /// Lists out all customers in the customer manager in a human readable format.
+        /// Gets an array of all registered customers.
         /// </summary>
-        /// <returns>human readable list of customer + info</returns>
-        public string CustomerList()
+        /// <returns>Array of customers</returns>
+        public Customer[] GetCustomers()
         {
-            return _customerManager.GetCustomerList();
+            return _customerManager.GetCustomers().Values.ToArray();
         }
 
         /// <summary>
         /// Adds a booking to the booking manager.
         /// </summary>
         /// <param name="date">Date and Time of the bookingt</param>
-        /// <param name="flightId">Id of the associated flight</param>
-        /// <param name="customerId">Id of the associated customer</param>
-        /// <exception cref="DuplicateBookingException">If a booking with the given info already exists</exception>
-        public void AddBooking(DateTime date, int flightId, string customerId)
+        /// <param name="flight">Associated Flight</param>
+        /// <param name="customer">Associated Customer</param>
+        /// <returns>true if the booking was added, false otherwise</returns>
+        public bool AddBooking(DateTime date, Flight flight, Customer customer)
         {
-            Customer customer = _customerManager.GetCustomer(customerId);
-            Flight flight = _flightManager.GetFlight(flightId);
+            try
+            {
+                string bookingId = _bookingManager.AddBooking(date, flight.FlightNumber, customer.Id);
+                customer.AddBookingReference(bookingId);
+                flight.AddPassenger(customer);
+            }
 
-            string bookingId = _bookingManager.AddBooking(date, flightId, customerId);
-            customer.AddBookingReference(bookingId);
-            flight.AddPassenger(customer);
+            catch (Errors.DuplicateBookingException)
+                { return false; }
+
+            return true;
         }
 
         /// <summary>

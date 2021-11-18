@@ -71,12 +71,9 @@ namespace Library
         /// Gets a human readable list of flights
         /// </summary>
         /// <returns>List of flights as string</returns>
-        public string GetAllFlights()
+        public Dictionary<int, Flight> GetAllFlights()
         {
-            string rv = "Flight List:";
-            foreach (KeyValuePair<int, Flight> flight in _flights)
-                { rv += $"\n\t{flight.Key}: from {flight.Value.OriginAirport} to {flight.Value.DestinationAirport}"; }
-            return rv;
+            return _flights;
         }
     }
 }
