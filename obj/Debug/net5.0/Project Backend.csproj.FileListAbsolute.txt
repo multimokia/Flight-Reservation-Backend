@@ -16,3 +16,4 @@
 /run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/obj/Debug/net5.0/ref/Project Backend.dll
 /run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/obj/Debug/net5.0/Project Backend.pdb
 /run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/obj/Debug/net5.0/Project Backend.genruntimeconfig.cache
+/run/media/games/Documents/GitHub/GBC/Semester-3/Adv OOP/Project Backend/bin/Debug/net5.0/Newtonsoft.Json.dll
