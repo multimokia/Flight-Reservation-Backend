@@ -2,16 +2,28 @@ using System;
 using System.Collections.Generic;
 
 using Library.Errors;
-
+using static Library.Utilities.Persistence;
 namespace Library
 {
-    class FlightManager
+    class FlightManager : IPersistable
     {
+        const string FLIGHT_PERSISTENCE_FILE = "./data/flights.json";
         private Dictionary<int, Flight> _flights;
 
         public FlightManager()
         {
-            _flights = new Dictionary<int, Flight>();
+            this.Load();
+        }
+
+        public void Save()
+        {
+            OverwriteJson(_flights, FLIGHT_PERSISTENCE_FILE);
+        }
+
+        public void Load()
+        {
+            CreateIfNotExists(FLIGHT_PERSISTENCE_FILE);
+            _flights = LoadFromJson<Dictionary<int, Flight>>(FLIGHT_PERSISTENCE_FILE);
         }
 
         /// <summary>

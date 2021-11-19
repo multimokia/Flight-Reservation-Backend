@@ -2,16 +2,29 @@ using System;
 using System.Collections.Generic;
 
 using Library.Errors;
+using static Library.Utilities.Persistence;
 
 namespace Library
 {
-    class CustomerManager
+    class CustomerManager : IPersistable
     {
+        const string CUSTOMER_PERSISTENCE_FILE = "./data/customers.json";
         private Dictionary<string, Customer> _customers;
 
         public CustomerManager()
         {
-            _customers = new Dictionary<string, Customer>();
+            this.Load();
+        }
+
+        public void Save()
+        {
+            OverwriteJson(_customers, CUSTOMER_PERSISTENCE_FILE);
+        }
+
+        public void Load()
+        {
+            CreateIfNotExists(CUSTOMER_PERSISTENCE_FILE);
+            _customers = LoadFromJson<Dictionary<string, Customer>>(CUSTOMER_PERSISTENCE_FILE);
         }
 
         /// <summary>

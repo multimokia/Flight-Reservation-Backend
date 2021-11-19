@@ -27,18 +27,29 @@ namespace Library
         /// <returns></returns>
         public bool AddFlight(int flightNumber, int maxSeats, string origin, string destination)
         {
-            return _flightManager.AddFlight(flightNumber, maxSeats, origin, destination);
+            bool success = _flightManager.AddFlight(flightNumber, maxSeats, origin, destination);
+
+            if (success)
+                { _flightManager.Save(); }
+
+            return success;
         }
 
         /// <summary>
         /// Deletes a flight from the flight manager.
         /// </summary>
         /// <param name="flightNumber">flight number of the flight to delete</param>
-        /// <exception cref="FlightNotFoundException">Thrown if the flight is not found</exception>
-        /// <exception cref="InvalidOperationException">Thrown if the flight has bookings</exception>
-        public void DeleteFlight(int flightNumber)
+        /// <exception cref="FlightNotFoundException">Thrown if the flight is not found</exception
+        /// <returns>true if flight was deleted. false otherwise</returns>
+        public bool DeleteFlight(int flightNumber)
         {
-            _flightManager.DeleteFlight(flightNumber);
+            try
+                { _flightManager.DeleteFlight(flightNumber); }
+            catch (InvalidOperationException)
+                { return false; }
+
+            _flightManager.Save();
+            return true;
         }
 
         /// <summary>
@@ -74,6 +85,7 @@ namespace Library
             catch (Errors.DuplicateCustomerException)
                 { return false; }
 
+            _customerManager.Save();
             return true;
         }
 
@@ -91,6 +103,7 @@ namespace Library
             catch (InvalidOperationException)
                 { return false; }
 
+            _customerManager.Save();
             return true;
         }
 
@@ -132,6 +145,10 @@ namespace Library
             catch (Errors.DuplicateBookingException)
                 { return false; }
 
+            //Save all changes
+            _bookingManager.Save();
+            _customerManager.Save();
+            _flightManager.Save();
             return true;
         }
 
@@ -148,6 +165,11 @@ namespace Library
             _bookingManager.RemoveBooking(bookingId);
             customer.RemoveBookingReference(bookingId);
             flight.RemovePassenger(booking.CustomerId);
+
+            //Save all changes
+            _bookingManager.Save();
+            _customerManager.Save();
+            _flightManager.Save();
         }
 
         public Booking[] GetBookings()

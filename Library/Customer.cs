@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using GUI;
+using static Library.Utilities.Utilities;
 
 namespace Library
 {
@@ -40,21 +41,11 @@ namespace Library
         {
             //For the sake of easy value comparison, we'll hash the id so we know if two customers
             //share the same info through the value of its id
-            _id = Utilities.HashString($"{firstName}{lastName}{phoneNumber}".Replace(" ", "").ToLower());
+            _id = HashString($"{firstName}{lastName}{phoneNumber}".Replace(" ", "").ToLower());
             _firstName = firstName;
             _lastName = lastName;
             _phoneNumber = phoneNumber;
             _bookings = new List<string>();
-        }
-
-        /// <summary>
-        /// Equals function. Checks if two customers are the same
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(Customer other)
-        {
-            return Id == other.Id;
         }
 
         /// <summary>
@@ -83,7 +74,7 @@ namespace Library
         /// <returns>MenuOption prompt</returns>
         public override string GetMenuPrompt()
         {
-            return $"{this.Id}: {this.FirstName} {this.LastName}";
+            return $"{this.FirstName} {this.LastName}";
         }
 
         /// <summary>

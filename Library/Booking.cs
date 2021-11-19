@@ -1,6 +1,7 @@
 using System;
-using GUI;
 
+using GUI;
+using static Library.Utilities.Utilities;
 namespace Library
 {
     public class Booking : MenuOptionValue
@@ -36,7 +37,7 @@ namespace Library
             _customerId = customerId;
 
             // Generate a unique id
-            _id = Utilities.HashString($"{flightId}{customerId}{_date}");
+            _id = HashString($"{flightId}{customerId}{_date}");
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace Library
         /// <returns>DateTime of timestamp</returns>
         public DateTime GetBookingDateTime()
         {
-            return Utilities.FromTimestamp(_date);
+            return FromTimestamp(_date);
         }
 
         /// <summary>

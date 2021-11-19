@@ -2,16 +2,30 @@ using System;
 using System.Collections.Generic;
 
 using Library.Errors;
+using static Library.Utilities.Persistence;
 
 namespace Library
 {
-    class BookingManager
+    class BookingManager : IPersistable
     {
+        const string BOOKING_PERSISTENCE_FILE = "./data/bookings.json";
+
         private Dictionary<string, Booking> _bookings;
 
         public BookingManager()
         {
-            _bookings = new Dictionary<string, Booking>();
+            this.Load();
+        }
+
+        public void Save()
+        {
+            OverwriteJson(_bookings, BOOKING_PERSISTENCE_FILE);
+        }
+
+        public void Load()
+        {
+            CreateIfNotExists(BOOKING_PERSISTENCE_FILE);
+            _bookings = LoadFromJson<Dictionary<string, Booking>>(BOOKING_PERSISTENCE_FILE);
         }
 
         /// <summary>

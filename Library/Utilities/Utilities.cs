@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Library
+namespace Library.Utilities
 {
     static class Utilities
     {

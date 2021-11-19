@@ -301,15 +301,11 @@ namespace Project_Backend
                 { return; }
 
             //The delete method will throw errors if the flgiht doesn't exist or it has bookings. We try/catch to raise those to the user.
-            try
-            {
-                _airlineCoordinator.DeleteFlight(choice.FlightNumber);
-                Success("Flight deleted.");
-            }
+            if (_airlineCoordinator.DeleteFlight(choice.FlightNumber))
+                { Success("Flight deleted."); }
 
-            //Catches specialized exceptions and reports their messages to the user
-            catch (InvalidOperationException ex)
-                { Error(ex.Message); }
+            else
+                { Error("This flight still has customers booked on it. It cannot be deleted."); }
         }
         #endregion
 
