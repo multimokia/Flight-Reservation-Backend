@@ -320,41 +320,25 @@ namespace Project_Backend
             int amtDays = 0;
             switch (month)
             {
-                case 1:
-                    amtDays = 31;
-                    break;
                 case 2:
                     amtDays = 28;
                     if (isLeapYear)
                         amtDays++;
                     break;
-                case 3:
-                    amtDays = 31;
-                    break;
+
                 case 4:
-                    amtDays = 30;
-                    break;
-                case 5:
-                    amtDays = 31;
-                    break;
                 case 6:
-                    amtDays = 30;
-                    break;
-                case 7:
-                    amtDays = 31;
-                    break;
-                case 8:
-                    amtDays = 31;
-                    break;
                 case 9:
-                    amtDays = 30;
-                    break;
-                case 10:
-                    amtDays = 31;
-                    break;
                 case 11:
                     amtDays = 30;
                     break;
+
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
                 case 12:
                     amtDays = 31;
                     break;
