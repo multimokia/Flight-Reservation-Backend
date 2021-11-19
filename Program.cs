@@ -317,50 +317,50 @@ namespace Project_Backend
         /// <returns>Amount of days in month</returns>
         static int GetAmountOfDaysInMonth(int month, bool isLeapYear)
         {
-            int AmtDays = 0;
+            int amtDays = 0;
             switch (month)
             {
                 case 1:
-                    AmtDays = 31;
+                    amtDays = 31;
                     break;
                 case 2:
-                    AmtDays = 28;
+                    amtDays = 28;
                     if (isLeapYear)
-                        AmtDays++;
+                        amtDays++;
                     break;
                 case 3:
-                    AmtDays = 31;
+                    amtDays = 31;
                     break;
                 case 4:
-                    AmtDays = 30;
+                    amtDays = 30;
                     break;
                 case 5:
-                    AmtDays = 31;
+                    amtDays = 31;
                     break;
                 case 6:
-                    AmtDays = 30;
+                    amtDays = 30;
                     break;
                 case 7:
-                    AmtDays = 31;
+                    amtDays = 31;
                     break;
                 case 8:
-                    AmtDays = 31;
+                    amtDays = 31;
                     break;
                 case 9:
-                    AmtDays = 30;
+                    amtDays = 30;
                     break;
                 case 10:
-                    AmtDays = 31;
+                    amtDays = 31;
                     break;
                 case 11:
-                    AmtDays = 30;
+                    amtDays = 30;
                     break;
                 case 12:
-                    AmtDays = 31;
+                    amtDays = 31;
                     break;
             }
 
-            return AmtDays;
+            return amtDays;
         }
     }
 }
